@@ -19,14 +19,11 @@ io.on("connection", socket => {
   });
 
   socket.on("createMessage", data => {
-    console.log("Message: ", data.text);
-    console.log("From: ", data.from);
-  });
-
-  socket.emit("newMessage", {
-    from: "user name goes here",
-    text: "For your eyes only",
-    createdAt: new Date()
+    io.emit("newMessage", {
+      from: data.from,
+      text: data.text,
+      createdAt: new Date().getTime()
+    });
   });
 });
 
