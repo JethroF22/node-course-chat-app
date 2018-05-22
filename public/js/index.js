@@ -15,6 +15,28 @@ const displayMessage = data => {
   // const li = document.createElement("li");
   // li.innerHTML = `${data.from} (${formattedTime}): ${data.text} `;
   messages.innerHTML += html;
+  scrollToBottom();
+};
+
+const scrollToBottom = () => {
+  const messages = document.getElementById("messages");
+  const newMessage = messages.lastElementChild;
+
+  const clientHeight = messages.clientHeight;
+  const scrollTop = messages.scrollTop;
+  const scrollHeight = messages.scrollHeight;
+  const newMessageHeight = newMessage.clientHeight;
+  let lastMessageHeight;
+  if (newMessage.previousElementSibling) {
+    lastMessageHeight = newMessage.previousElementSibling.clientHeight;
+  }
+
+  if (
+    clientHeight + scrollTop + newMessageHeight + lastMessageHeight >=
+    scrollHeight
+  ) {
+    messages.scrollTop = scrollHeight;
+  }
 };
 
 form.addEventListener("submit", e => {
@@ -69,4 +91,5 @@ socket.on("newLocationMessage", data => {
   });
 
   messages.innerHTML += html;
+  scrollToBottom();
 });
